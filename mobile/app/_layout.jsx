@@ -11,7 +11,6 @@ if (!publishableKey) {
 }
 
 export default function RootLayout() {
-  console.log('app _layout');
   return (
     <ClerkProvider 
       publishableKey={publishableKey}

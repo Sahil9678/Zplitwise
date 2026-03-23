@@ -2,12 +2,23 @@ import { Show, useUser, SignedIn, SignedOut } from '@clerk/expo'
 import { useClerk } from '@clerk/expo'
 import { Link } from 'expo-router'
 import { Text, View, Pressable, StyleSheet } from 'react-native'
+import { useTransactions } from '../../hooks/useTransactions'
+import { useEffect } from 'react'
+import { styles } from '@/assets/styles/auth.styles.js'
 
 export default function Page() {
   const { user } = useUser()
   const { signOut } = useClerk()
+  const { transactions, summary, IsLoading , loadData, deleteTransactions  } = useTransactions(user.id);
 
-  console.log('index.js');
+  useEffect(() => {
+    loadData();
+  }, [loadData])
+  
+    console.log('userid',user.id);
+
+  console.log('transactions',transactions);
+  console.log('summary',summary);
 
   return (
     <View style={styles.container}>
@@ -30,26 +41,26 @@ export default function Page() {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 60,
-    gap: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  button: {
-    backgroundColor: '#0a7ea4',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-})
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 20,
+//     paddingTop: 60,
+//     gap: 16,
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//   },
+//   button: {
+//     backgroundColor: '#0a7ea4',
+//     paddingVertical: 12,
+//     paddingHorizontal: 24,
+//     borderRadius: 8,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     fontWeight: '600',
+//   },
+// })

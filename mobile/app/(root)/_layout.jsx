@@ -4,7 +4,6 @@ import { Redirect, Stack } from 'expo-router'
 export default function Layout() {
   const { isSignedIn, isLoaded } = useAuth()
 
-  console.log('root _layout');
 
   if (!isLoaded) {
     return null

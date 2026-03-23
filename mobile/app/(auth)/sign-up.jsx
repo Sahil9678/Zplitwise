@@ -80,7 +80,7 @@ export default function Page() {
           Verify your account
         </Text>
         <TextInput
-          style={[styles.verificationInput, errors.fields.code && errorInput]}
+          style={[styles.verificationInput, errors.fields.code && styles.errorInput]}
           value={code}
           placeholder="Enter your verification code"
           placeholderTextColor="#666666"
@@ -111,8 +111,6 @@ export default function Page() {
     )
   }
 
-  console.log('pointer1',errors)
-
   return (
     <KeyboardAwareScrollView 
       style={{flex :1}}
@@ -137,7 +135,7 @@ export default function Page() {
         />
 
         {errors.fields.emailAddress && (
-          <Text style={styles.error}>Email Address {errors.fields.emailAddress.message}</Text>
+          <Text style={styles.error}>{errors.fields.emailAddress.longMessage}</Text>
         )}
         <TextInput
           style={[styles.input, errors.fields.password && styles.errorInput]}
