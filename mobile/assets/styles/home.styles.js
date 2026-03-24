@@ -1,6 +1,6 @@
 // styles/home.styles.js
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../constants/colors";
+import { COLORS } from "@/constants/color.js";
 
 export const styles = StyleSheet.create({
   container: {
@@ -109,8 +109,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   balanceStatItem: {
-    flex: 1,
-    alignItems: "center",
+    alignItems: "stretch"
   },
   statDivider: {
     borderRightWidth: 1,
@@ -124,6 +123,7 @@ export const styles = StyleSheet.create({
   balanceStatAmount: {
     fontSize: 18,
     fontWeight: "600",
+    flexGrow:1
   },
   sectionTitle: {
     fontSize: 18,

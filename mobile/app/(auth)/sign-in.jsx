@@ -1,4 +1,4 @@
-// import { ThemedText } from '@/components/themed-text'
+// import { Text } from '@/components/themed-text'
 // import { View } from '@/components/themed-view'r
 import { useSignIn } from '@clerk/expo'
 import { Link, useRouter } from 'expo-router'
@@ -17,15 +17,22 @@ export default function Page() {
   const [code, setCode] = React.useState('')
 
   const handleSubmit = async () => {
+    
     const { error } = await signIn.password({
       emailAddress,
       password,
     })
+
+    console.log('issignedIn inside error', error)
+    console.log('issignedIn inside signIn', signIn.status,'-', signIn, '-', fetchStatus,'-', emailAddress,'-',
+      password)
     if (error) {
       console.log('errr1 -', error)
       // console.error(JSON.stringify(error, null, 2))
       return
     }
+
+    console.log('signIn -', signIn.status)
 
     if (signIn.status === 'complete') {
       await signIn.finalize({
@@ -46,6 +53,7 @@ export default function Page() {
         },
       })
     } else if (signIn.status === 'needs_second_factor') {
+      await signIn.mfa.sendEmailCode();
       // See https://clerk.com/docs/guides/development/custom-flows/authentication/multi-factor-authentication
     } else if (signIn.status === 'needs_client_trust') {
       // For other second factor strategies,
@@ -61,6 +69,17 @@ export default function Page() {
       // Check why the sign-in is not complete
       // console.error('Sign-in attempt not complete:', signIn)
       console.log('error1 -', signIn)
+    }
+  }
+
+    const handleMFAVerification = async () => {
+    if (code) {
+      await signIn.mfa.verifyEmailCode({ code })
+      
+    } else {
+      await signIn.mfa.sendEmailCode();
+      // If you're using the authenticator app strategy, use the following method instead:
+      // await signIn.mfa.verifyTOTP({ code })
     }
   }
 
@@ -137,7 +156,45 @@ export default function Page() {
     )
   }
 
-  console.log('issignedIn',signIn)
+
+  if (signIn.status === 'needs_second_factor') {
+    return (
+      <View style={styles.container}>
+        <Text type="title" style={styles.title}>
+          Verify your account
+        </Text>
+        <TextInput
+          style={styles.input}
+          value={code}
+          placeholder="Enter code"
+          placeholderTextColor="#666666"
+          onChangeText={(code) => setCode(code)}
+          keyboardType="numeric"
+        />
+        {errors.fields.code && (
+          <Text style={styles.error}>{errors.fields.code.message}</Text>
+        )}
+        <Pressable
+                  style={({ pressed }) => [styles.secondaryButton, pressed && styles.buttonPressed]}
+                  onPress={() => signIn.mfa.sendEmailCode()}
+                >
+                  <Text style={styles.footerText}>I need a new code</Text>
+                </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            fetchStatus === 'fetching' && styles.buttonDisabled,
+            pressed && styles.buttonPressed,
+          ]}
+          onPress={handleMFAVerification}
+          disabled={fetchStatus === 'fetching'}
+        >
+          <Text style={styles.buttonText}>Verify</Text>
+        </Pressable>
+      </View>
+    )
+  }
+
 
   return (
     <KeyboardAwareScrollView 

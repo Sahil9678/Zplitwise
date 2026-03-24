@@ -6,7 +6,6 @@ import React from 'react'
 import { Pressable, StyleSheet, TextInput, View, Text, TouchableOpacity } from 'react-native'
 import { styles } from '@/assets/styles/auth.styles.js'
 import { COLORS } from "@/constants/color.js";
-import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 

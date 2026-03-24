@@ -2,6 +2,7 @@ import { Slot, Stack } from "expo-router";
 import { ClerkProvider } from '@clerk/expo'
 import { tokenCache } from '@clerk/expo/token-cache'
 import SafeScreen from "@/components/SafeScreen.jsx";
+import { StatusBar } from "expo-status-bar";
 
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
@@ -19,6 +20,7 @@ export default function RootLayout() {
       <SafeScreen>
         <Slot />
       </SafeScreen>
+      <StatusBar style="dark" />
     </ClerkProvider>
   );
 }
