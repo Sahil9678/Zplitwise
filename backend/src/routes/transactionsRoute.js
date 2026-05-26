@@ -3,11 +3,13 @@ import {
     getTransactionByUserId, 
     createTransaction, 
     deleteTransaction, 
-    getSummaryByUserId
+    getSummaryByUserId,
+    getAllTransaction
 } from '../controller/transactionsController.js'
 
 const router = express.Router();
 
+router.get('/', getAllTransaction)
 router.get('/:user_id', getTransactionByUserId)
 router.post('/', createTransaction)
 router.delete('/:id', deleteTransaction)

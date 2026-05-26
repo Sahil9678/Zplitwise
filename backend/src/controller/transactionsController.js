@@ -1,5 +1,20 @@
 import {sql} from '../config/db.js';
 
+export async function getAllTransaction (req,res) {
+
+        try{
+            // const {user_id} = req.params;
+            const user_details = await sql`
+                SELECT * FROM transactions
+            `;
+            res.status(200).json(user_details);
+    
+        }catch(error) {
+            console.error("Error getting the transaction: ", error);
+            res.status(500).json({error: "Internal Server Error"});
+        }
+}
+x
 export async function getTransactionByUserId (req,res) {
 
         try{
